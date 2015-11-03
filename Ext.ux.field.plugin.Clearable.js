@@ -27,7 +27,6 @@ Ext.define('Ext.ux.field.plugin.Clearable', {
                 cls: Ext.baseCSSPrefix + 'form-clear-trigger',
                 weight: weight,
                 handler: function() {
-                    debugger;
                     if (Ext.isFunction(field.clearValue)) {
                         field.clearValue();
                     } else {
