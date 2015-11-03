@@ -25,9 +25,9 @@ Ext.define('Ext.ux.field.plugin.Clearable', {
         field.setTriggers(Ext.applyIf(field.getTriggers(), {
             clear: {
                 cls: Ext.baseCSSPrefix + 'form-clear-trigger',
-                hideOnReadOnly: false,
                 weight: weight,
                 handler: function() {
+                    debugger;
                     if (Ext.isFunction(field.clearValue)) {
                         field.clearValue();
                     } else {
@@ -65,7 +65,9 @@ Ext.define('Ext.ux.field.plugin.Clearable', {
             single: true
         });
 
-
+        // When readOnly is toggled we need to
+        // sync the clear trigger visibility.
+        Ext.Function.interceptAfter(field, 'setReadOnly', plugin.syncClearTriggerVisibility, plugin);
     },
 
     destroy: function() {
@@ -73,5 +75,19 @@ Ext.define('Ext.ux.field.plugin.Clearable', {
         if (field.clearableListeners) {
             field.clearableListeners.destroy();
         }
+    },
+
+    /**
+     * Considers all conditions to set trigger visibility.
+     * Can be overridden to influence when trigger is made
+     * visible.
+     */
+    syncClearTriggerVisibility: function () {
+        var field = this.getCmp();
+        var value = field.getValue();
+        var clearTrigger = field.getTrigger('clear');
+        var isReadOnly = field.readOnly;
+
+        clearTrigger[value && !isReadOnly ? 'show' : 'hide']();
     }
 });
