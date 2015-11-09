@@ -43,20 +43,7 @@ Ext.define('Ext.ux.field.plugin.Clearable', {
                 destroyable: true
             };
 
-            listeners[toggleEvent] = function(field) {
-                var fieldValue = field.getValue();
-                var hasValue = false;
-
-                switch (field.getXType()) {
-                case 'numberfield':
-                    hasValue = fieldValue !== null;
-                    break;
-                default:
-                    hasValue = fieldValue;
-                }
-
-                field.getTrigger('clear')[hasValue ? 'show' : 'hide']();
-            };
+            listeners[toggleEvent] = plugin.syncClearTriggerVisibility.bind(plugin);
 
             field.clearableListeners = field.on(listeners);
 
