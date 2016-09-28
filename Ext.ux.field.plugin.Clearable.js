@@ -47,6 +47,10 @@ Ext.define('Ext.ux.field.plugin.Clearable', {
 
             field.clearableListeners = field.on(listeners);
 
+            // check for already populated values right after render
+            plugin.syncClearTriggerVisibility();
+
+
         }, field, {
             single: true
         });
